@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مساعدي الذكي</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+    .app {
+      width: 100%;
+      max-width: 600px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+    header {
+      text-align: center;
+      padding: 20px 0;
+      border-bottom: 1px solid #334155;
+    }
+    header h1 { margin: 0 0 8px; color: #38bdf8; }
+    header p { color: #cbd5e1; margin: 0; }
+    #chat {
+      flex: 1;
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .message {
+      padding: 12px 15px;
+      border-radius: 15px;
+      line-height: 1.7;
+      max-width: 90%;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .bot { background: #1e293b; align-self: flex-start; }
+    .user { background: #0369a1; align-self: flex-end; }
+    form { display: flex; gap: 8px; padding: 12px 0; }
+    input {
+      flex: 1;
+      min-width: 0;
+      padding: 14px;
+      border: 1px solid #475569;
+      border-radius: 12px;
+      background: #1e293b;
+      color: white;
+      font-size: 16px;
+    }
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 0 18px;
+      background: #0284c7;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    button:active { background: #0369a1; }
+    footer { text-align: center; color: #94a3b8; font-size: 12px; padding: 10px; }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>🤖 مساعدي الذكي</h1>
+      <p>مرحبا بك! كيفاش نقدر نعاونك؟</p>
+    </header><section id="chat" aria-live="polite">
+  <div class="message bot">السلام عليكم! 👋 أنا مساعدك التجريبي. كتب ليا شي سؤال باش نجربو التطبيق.</div>
+</section>
+
+<form id="chatForm">
+  <input id="userInput" type="text" placeholder="كتب سؤالك هنا..." autocomplete="off" required>
+  <button type="submit">إرسال</button>
+</form>
+
+<footer>نسخة تجريبية — لم يتم ربط ذكاء اصطناعي حقيقي بعد</footer>
+
+  </main>  <script>
+    const form = document.getElementById("chatForm");
+    const input = document.getElementById("userInput");
+    const chat = document.getElementById("chat");
+
+    function addMessage(text, type) {
+      const message = document.createElement("div");
+      message.className = "message " + type;
+      message.textContent = text;
+      chat.appendChild(message);
+      message.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+
+    function getReply(text) {
+      const question = text.toLowerCase();
+
+      if (question.includes("سلام") || question.includes("السلام")) {
+        return "وعليكم السلام! 😊 مرحبا بك، شنو بغيتي تعرف اليوم؟";
+      }
+
+      if (question.includes("اسمك")) {
+        return "أنا مساعدك الذكي التجريبي 🤖";
+      }
+
+      if (question.includes("github")) {
+        return "GitHub منصة كتعاونك تخزن الكود ديالك وتشارك المشاريع وتنشر بعض المواقع مجاناً.";
+      }
+
+      if (question.includes("ماينكرافت") || question.includes("minecraft")) {
+        return "ماينكرافت لعبة كتخليك تبني وتستكشف عوالم مختلفة! 🧱";
+      }
+
+      return "توصلت بسؤالك: \"" + text + "\" 😊 هادي نسخة تجريبية، ومازال خاصنا نربطوها بذكاء اصطناعي حقيقي باش تجاوب على أسئلة متنوعة.";
+    }
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+      const text = input.value.trim();
+
+      if (!text) return;
+
+      addMessage(text, "user");
+      input.value = "";
+
+      setTimeout(function() {
+        addMessage(getReply(text), "bot");
+      }, 400);
+    });
+  </script></body>
+</html>
